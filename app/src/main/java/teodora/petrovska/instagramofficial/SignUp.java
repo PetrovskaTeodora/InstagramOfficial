@@ -1,5 +1,6 @@
 package teodora.petrovska.instagramofficial;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ public class SignUp extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+        setTitle("Sign Up");
 
         imgInstagram=findViewById(R.id.imgInstagram);
         edtEmail=findViewById(R.id.edtEmail);
@@ -35,25 +37,37 @@ public class SignUp extends AppCompatActivity {
         btnSignUp=findViewById(R.id.btnSignUp);
         btnLogIn=findViewById(R.id.btnLogIn);
 
-
+        if(ParseUser.getCurrentUser() != null){
+            ParseUser.getCurrentUser().logOut();
+     }
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 final ParseUser appUser=new ParseUser();
+
                 appUser.setUsername(edtUserName.getText().toString());
                 appUser.setPassword(edtPassword.getText().toString());
+                appUser.setEmail(edtEmail.getText().toString());
+
+                final ProgressDialog progressDialog=new ProgressDialog(SignUp.this);
+                progressDialog.setMessage("Signing up "+edtUserName.getText().toString());
+                progressDialog.show();
+
 
                 appUser.signUpInBackground(new SignUpCallback() {
                     @Override
                     public void done(ParseException e) {
                         if(e==null){
                             FancyToast.makeText(SignUp.this,appUser.getUsername() + "signed up successfully!",FancyToast.LENGTH_LONG,FancyToast.SUCCESS,true).show();
+
                         }
                         else
                         {
                             FancyToast.makeText(SignUp.this,e.getMessage(),FancyToast.LENGTH_LONG,FancyToast.ERROR,true).show();
                         }
+
+                        progressDialog.dismiss();
                     }
                 });
             }
@@ -80,6 +94,7 @@ public class SignUp extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
 
     }
 }
