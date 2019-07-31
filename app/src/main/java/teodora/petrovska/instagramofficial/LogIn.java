@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -32,7 +33,8 @@ public class LogIn extends AppCompatActivity {
         btnSignUp=findViewById(R.id.btnSignUp);
 
         if(ParseUser.getCurrentUser() !=null){
-            ParseUser.getCurrentUser().logOut();
+//            ParseUser.getCurrentUser().logOut();
+            transitionToSocialMediaAcivity();
         }
 
         btnLogIn.setOnClickListener(new View.OnClickListener() {
@@ -44,6 +46,7 @@ public class LogIn extends AppCompatActivity {
                 public void done(ParseUser user, ParseException e) {
                     if(user!=null && e==null){
                         FancyToast.makeText(LogIn.this,user.getUsername() + "logged in successfully!",FancyToast.LENGTH_LONG,FancyToast.SUCCESS,true).show();
+                        transitionToSocialMediaAcivity();
                     }
                     else
                     {
@@ -66,5 +69,24 @@ public class LogIn extends AppCompatActivity {
         });
 
 
+    }
+
+
+    public void LogInLayoutTapped(View view){
+
+        try {
+
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
+    private void  transitionToSocialMediaAcivity(){
+        Intent intent=new Intent(LogIn.this, SocialMediaActivity.class);
+        startActivity(intent);
     }
 }
