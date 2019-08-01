@@ -76,7 +76,7 @@ public class SignUp extends AppCompatActivity {
                                         progressDialog.dismiss();
                                         if (e == null) {
                                             FancyToast.makeText(SignUp.this, appUser.getUsername() + "signed up successfully!", FancyToast.LENGTH_LONG, FancyToast.SUCCESS, true).show();
-
+                                            transitionToSocialMediaAcivity();
                                         } else {
                                             FancyToast.makeText(SignUp.this, e.getMessage(), FancyToast.LENGTH_LONG, FancyToast.ERROR, true).show();
                                         }
@@ -118,8 +118,8 @@ public class SignUp extends AppCompatActivity {
                         public void done(ParseException e) {
                             progressDialog.dismiss();
                             if (e == null) {
-                                FancyToast.makeText(SignUp.this, appUser.getUsername() + "signed up successfully!", FancyToast.LENGTH_LONG, FancyToast.SUCCESS, true).show();
-                                transitionToSocialMediaAcivity();
+                              FancyToast.makeText(SignUp.this, appUser.getUsername() + "signed up successfully!", FancyToast.LENGTH_LONG, FancyToast.SUCCESS, true).show();
+                              transitionToSocialMediaAcivity();
                             } else {
                                 FancyToast.makeText(SignUp.this, e.getMessage(), FancyToast.LENGTH_LONG, FancyToast.ERROR, true).show();
                             }
